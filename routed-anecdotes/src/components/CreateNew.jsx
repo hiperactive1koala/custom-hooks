@@ -1,23 +1,35 @@
 import PropTypes from 'prop-types'
-import { useState } from "react"
+
 import { useNavigate } from "react-router-dom";
 import { useNotificationDispatch } from "../NotificationContext"
+import { useField } from '../hooks';
 
 export const CreateNew = ({ addNew }) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
+  const { reset: resetContent, ...content } = useField("text");
+  const { reset: resetAuthor, ...author } = useField("text");
+  const { reset: resetInfo, ...info } = useField("text");
 
   const notificationDispatch = useNotificationDispatch()
   const navigate = useNavigate()
   
   const handleSubmit = (e) => {
     e.preventDefault()
-    let anecdote = { content, author, info, votes: 0 }
+    let anecdote = { 
+      content: content.value, 
+      author: author.value, 
+      info: info.value, 
+      votes: 0 
+    }
 
     addNew(anecdote)
     notificationDispatch({ type: 'CREATE_ANECDOTE', payload: anecdote })
     navigate('/')
+  }
+
+  const handleReset = () => {
+    resetContent()
+    resetAuthor()
+    resetInfo()
   }
 
   return (
@@ -26,17 +38,18 @@ export const CreateNew = ({ addNew }) => {
       <form onSubmit={handleSubmit}>
           <div>
             content
-            <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+            <input name='content' {...content} />
           </div>
           <div>
             author
-            <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+            <input name='author' {...author} />
           </div>
           <div>
             url for more info
-            <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+            <input name='info' {...info} />
           </div>
-          <button>create</button>
+          <button type='submit'>create</button>
+          <button type='button' onClick={handleReset}>reset</button>
       </form>
     </div>
   )

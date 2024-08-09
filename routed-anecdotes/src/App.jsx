@@ -5,10 +5,10 @@ import {
   useMatch
 } from "react-router-dom";
 
-import { Menu } from './Menu'
+import { Menu } from './components/Menu'
 import { AnecdoteList } from './components/AnecdoteList'
 import { About } from './components/About'
-import { Footer } from './Footer'
+import { Footer } from './components/Footer'
 import { Anecdote } from './components/Anecdote';
 import { CreateNew } from './components/CreateNew';
 import { Notification } from './components/Notification';
