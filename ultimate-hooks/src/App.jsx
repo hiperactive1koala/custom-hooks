@@ -13,7 +13,7 @@ const App = () => {
   useEffect(() => {
     noteService.getAll()
     personService.getAll()
-  }, [])
+  })
   
 
   const handleNoteSubmit = (event) => {
